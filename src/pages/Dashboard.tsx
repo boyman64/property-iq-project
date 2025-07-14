@@ -32,8 +32,8 @@ const Dashboard = () => {
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [showAllProperties, setShowAllProperties] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string>('');
-  const [selectedPropertyType, setSelectedPropertyType] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('all-cities');
+  const [selectedPropertyType, setSelectedPropertyType] = useState<string>('all-types');
 
   const handleViewDetails = (property: Property) => {
     setSelectedProperty(property);
@@ -50,8 +50,8 @@ const Dashboard = () => {
       property.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
       property.title.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesCity = !selectedCity || property.city === selectedCity;
-    const matchesType = !selectedPropertyType || property.propertyType === selectedPropertyType;
+    const matchesCity = !selectedCity || selectedCity === 'all-cities' || property.city === selectedCity;
+    const matchesType = !selectedPropertyType || selectedPropertyType === 'all-types' || property.propertyType === selectedPropertyType;
     
     return matchesSearch && matchesCity && matchesType;
   });
@@ -69,8 +69,8 @@ const Dashboard = () => {
   ];
 
   const clearFilters = () => {
-    setSelectedCity('');
-    setSelectedPropertyType('');
+    setSelectedCity('all-cities');
+    setSelectedPropertyType('all-types');
     setSearchQuery('');
   };
 
@@ -193,7 +193,7 @@ const Dashboard = () => {
                       <SelectValue placeholder="All cities" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All cities</SelectItem>
+                      <SelectItem value="all-cities">All cities</SelectItem>
                       {uniqueCities.map(city => (
                         <SelectItem key={city} value={city}>{city}</SelectItem>
                       ))}
@@ -207,7 +207,7 @@ const Dashboard = () => {
                       <SelectValue placeholder="All types" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All types</SelectItem>
+                      <SelectItem value="all-types">All types</SelectItem>
                       {propertyTypes.map(type => (
                         <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
                       ))}
