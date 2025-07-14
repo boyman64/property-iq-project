@@ -168,7 +168,10 @@ const Dashboard = () => {
 
             {filteredProperties.length > 6 && (
               <div className="text-center">
-                <Button variant="outline">
+                <Button 
+                  variant="outline"
+                  onClick={() => setSearchQuery('')}
+                >
                   View All {filteredProperties.length} Properties
                 </Button>
               </div>
