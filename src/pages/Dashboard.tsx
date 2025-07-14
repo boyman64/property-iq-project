@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import StatCard from '@/components/StatCard';
 import PropertyCard from '@/components/PropertyCard';
 import PropertyDetailsModal from '@/components/PropertyDetailsModal';
@@ -12,7 +13,8 @@ import {
   MapPin, 
   DollarSign,
   Search,
-  Filter
+  Filter,
+  X
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -28,6 +30,10 @@ const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [showPropertyModal, setShowPropertyModal] = useState(false);
+  const [showAllProperties, setShowAllProperties] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedPropertyType, setSelectedPropertyType] = useState<string>('');
 
   const handleViewDetails = (property: Property) => {
     setSelectedProperty(property);
@@ -39,15 +45,34 @@ const Dashboard = () => {
     setSelectedProperty(null);
   };
 
-  const filteredProperties = mockProperties.filter(property =>
-    property.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    property.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredProperties = mockProperties.filter(property => {
+    const matchesSearch = property.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.district.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      property.title.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    const matchesCity = !selectedCity || property.city === selectedCity;
+    const matchesType = !selectedPropertyType || property.propertyType === selectedPropertyType;
+    
+    return matchesSearch && matchesCity && matchesType;
+  });
 
   const totalListings = cityStats.reduce((sum, city) => sum + city.totalListings, 0);
   const avgPrice = Math.round(cityStats.reduce((sum, city) => sum + city.averagePrice, 0) / cityStats.length);
   const avgPriceChange = cityStats.reduce((sum, city) => sum + city.priceChange, 0) / cityStats.length;
+
+  const displayedProperties = showAllProperties ? filteredProperties : filteredProperties.slice(0, 6);
+  const uniqueCities = [...new Set(mockProperties.map(p => p.city))];
+  const propertyTypes = [
+    { value: 'apartment', label: 'Apartment' },
+    { value: 'house', label: 'House' },
+    { value: 'commercial', label: 'Commercial' }
+  ];
+
+  const clearFilters = () => {
+    setSelectedCity('');
+    setSelectedPropertyType('');
+    setSearchQuery('');
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -149,15 +174,62 @@ const Dashboard = () => {
                   className="w-full"
                 />
               </div>
-              <Button variant="analytics">
+              <Button 
+                variant="analytics"
+                onClick={() => setShowFilters(!showFilters)}
+              >
                 <Filter className="w-4 h-4 mr-2" />
                 Filters
               </Button>
             </div>
 
+            {/* Filter Panel */}
+            {showFilters && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/30 rounded-lg border">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">City</label>
+                  <Select value={selectedCity} onValueChange={setSelectedCity}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="All cities" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All cities</SelectItem>
+                      {uniqueCities.map(city => (
+                        <SelectItem key={city} value={city}>{city}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Property Type</label>
+                  <Select value={selectedPropertyType} onValueChange={setSelectedPropertyType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="All types" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All types</SelectItem>
+                      {propertyTypes.map(type => (
+                        <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-end">
+                  <Button 
+                    variant="outline" 
+                    onClick={clearFilters}
+                    className="w-full"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Clear Filters
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {/* Search Results */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProperties.slice(0, 6).map((property) => (
+              {displayedProperties.map((property) => (
                 <PropertyCard
                   key={property.id}
                   property={property}
@@ -166,14 +238,31 @@ const Dashboard = () => {
               ))}
             </div>
 
-            {filteredProperties.length > 6 && (
+            {filteredProperties.length > 6 && !showAllProperties && (
               <div className="text-center">
                 <Button 
                   variant="outline"
-                  onClick={() => setSearchQuery('')}
+                  onClick={() => setShowAllProperties(true)}
                 >
-                  View All {filteredProperties.length} Properties
+                  View All Properties
                 </Button>
+              </div>
+            )}
+
+            {showAllProperties && filteredProperties.length > 6 && (
+              <div className="text-center">
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowAllProperties(false)}
+                >
+                  Show Less
+                </Button>
+              </div>
+            )}
+
+            {filteredProperties.length === 0 && (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">No properties found matching your criteria.</p>
               </div>
             )}
           </CardContent>
