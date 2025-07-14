@@ -6,6 +6,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Dashboard from "./pages/Dashboard";
 import Trends from "./pages/Trends";
+import CheapestAreas from "./pages/CheapestAreas";
+import BestTimeToBuy from "./pages/BestTimeToBuy";
+import HotZones from "./pages/HotZones";
+import Insights from "./pages/Insights";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,10 +25,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/trends" element={<Trends />} />
-            <Route path="/cheapest-areas" element={<Dashboard />} />
-            <Route path="/best-time" element={<Dashboard />} />
-            <Route path="/hot-zones" element={<Dashboard />} />
-            <Route path="/insights" element={<Dashboard />} />
+            <Route path="/cheapest-areas" element={<CheapestAreas />} />
+            <Route path="/best-time" element={<BestTimeToBuy />} />
+            <Route path="/hot-zones" element={<HotZones />} />
+            <Route path="/insights" element={<Insights />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

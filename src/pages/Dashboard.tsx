@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import StatCard from '@/components/StatCard';
 import PropertyCard from '@/components/PropertyCard';
+import PropertyDetailsModal from '@/components/PropertyDetailsModal';
 import { mockProperties, cityStats, Property } from '@/data/mockProperties';
 import { 
   TrendingUp, 
@@ -26,6 +27,17 @@ const quickTrendData = [
 const Dashboard = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [showPropertyModal, setShowPropertyModal] = useState(false);
+
+  const handleViewDetails = (property: Property) => {
+    setSelectedProperty(property);
+    setShowPropertyModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowPropertyModal(false);
+    setSelectedProperty(null);
+  };
 
   const filteredProperties = mockProperties.filter(property =>
     property.city.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -149,7 +161,7 @@ const Dashboard = () => {
                 <PropertyCard
                   key={property.id}
                   property={property}
-                  onViewDetails={setSelectedProperty}
+                  onViewDetails={handleViewDetails}
                 />
               ))}
             </div>
@@ -195,6 +207,13 @@ const Dashboard = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* Property Details Modal */}
+        <PropertyDetailsModal
+          property={selectedProperty}
+          isOpen={showPropertyModal}
+          onClose={handleCloseModal}
+        />
       </div>
     </div>
   );

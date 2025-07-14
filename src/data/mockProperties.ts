@@ -49,7 +49,7 @@ export const mockProperties: Property[] = [
     bathrooms: 1,
     yearBuilt: 2018,
     description: 'Beautiful modern apartment with city views in popular Saburtalo district',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1496307653780-42ee777d4833?w=400&h=300&fit=crop',
     coordinates: { lat: 41.7287, lng: 44.7633 },
     listedDate: '2024-01-15',
     features: ['Parking', 'Elevator', 'Balcony', 'Central Heating']
@@ -66,7 +66,7 @@ export const mockProperties: Property[] = [
     bathrooms: 2,
     yearBuilt: 2020,
     description: 'Exclusive penthouse with panoramic views of Tbilisi',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1551038247-3d9af20df552?w=400&h=300&fit=crop',
     coordinates: { lat: 41.7088, lng: 44.7577 },
     listedDate: '2024-01-20',
     features: ['Parking', 'Elevator', 'Terrace', 'Premium Finishes', 'Security']
@@ -83,7 +83,7 @@ export const mockProperties: Property[] = [
     bathrooms: 2,
     yearBuilt: 2015,
     description: 'Charming house near the Black Sea in historic Old Town',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop',
     coordinates: { lat: 41.6461, lng: 41.6369 },
     listedDate: '2024-01-10',
     features: ['Garden', 'Sea View', 'Renovated', 'Central Location']
@@ -98,7 +98,7 @@ export const mockProperties: Property[] = [
     area: 200,
     yearBuilt: 2017,
     description: 'Prime commercial space on famous Rustaveli Avenue',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1483058712412-4245e9b90334?w=400&h=300&fit=crop',
     coordinates: { lat: 41.6977, lng: 44.8014 },
     listedDate: '2024-01-05',
     features: ['High Traffic', 'Modern Fixtures', 'Parking', 'Corner Location']
@@ -115,7 +115,7 @@ export const mockProperties: Property[] = [
     bathrooms: 1,
     yearBuilt: 2019,
     description: 'Perfect studio for young professionals in trendy Vera',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop',
     coordinates: { lat: 41.7063, lng: 44.7961 },
     listedDate: '2024-01-18',
     features: ['Modern Design', 'Central Location', 'Furnished']
@@ -132,7 +132,7 @@ export const mockProperties: Property[] = [
     bathrooms: 2,
     yearBuilt: 2016,
     description: 'Spacious family home in Georgia\'s second largest city',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop',
     coordinates: { lat: 42.2679, lng: 42.7056 },
     listedDate: '2024-01-12',
     features: ['Large Garden', 'Garage', 'Modern Kitchen', 'Quiet Area']
@@ -149,7 +149,7 @@ export const mockProperties: Property[] = [
     bathrooms: 1,
     yearBuilt: 2021,
     description: 'High-end apartment with mountain views in prestigious Mtatsminda',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1496307653780-42ee777d4833?w=400&h=300&fit=crop',
     coordinates: { lat: 41.6943, lng: 44.8015 },
     listedDate: '2024-01-25',
     features: ['Mountain Views', 'Premium Location', 'Modern Amenities', 'Security']
@@ -166,7 +166,7 @@ export const mockProperties: Property[] = [
     bathrooms: 3,
     yearBuilt: 2022,
     description: 'Exclusive beachfront villa with private beach access',
-    imageUrl: '/api/placeholder/400/300',
+    imageUrl: 'https://images.unsplash.com/photo-1551038247-3d9af20df552?w=400&h=300&fit=crop',
     coordinates: { lat: 41.6519, lng: 41.6421 },
     listedDate: '2024-01-08',
     features: ['Private Beach', 'Swimming Pool', 'Luxury Finishes', 'Sea Views']
