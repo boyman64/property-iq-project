@@ -8,6 +8,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Property } from '@/data/mockProperties';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { 
   MapPin, 
   Bed, 
@@ -17,6 +18,7 @@ import {
   DollarSign,
   Building,
   Star,
+  TrendingUp,
   X
 } from 'lucide-react';
 
@@ -183,8 +185,59 @@ const PropertyDetailsModal = ({ property, isOpen, onClose }: PropertyDetailsModa
                   </span>
                 </div>
               </div>
-            </div>
           </div>
+
+          {/* Price Fluctuation Chart */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-primary" />
+              Price Fluctuations
+            </h3>
+            <div className="h-64 p-4 rounded-lg border border-border bg-card">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={property.priceHistory}>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis 
+                    dataKey="month" 
+                    tick={{ fontSize: 12 }}
+                    angle={-45}
+                    textAnchor="end"
+                    height={60}
+                  />
+                  <YAxis 
+                    tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`}
+                    tick={{ fontSize: 12 }}
+                  />
+                  <Tooltip 
+                    formatter={(value) => [`$${Number(value).toLocaleString()}`, 'Price']}
+                    labelStyle={{ color: 'hsl(var(--foreground))' }}
+                    contentStyle={{ 
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: 'var(--radius)'
+                    }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="price" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={3}
+                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
+                    activeDot={{ r: 6, stroke: 'hsl(var(--primary))', strokeWidth: 2 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Seasonal pricing patterns - {property.city === 'Batumi' || property.city === 'Kobuleti' 
+                ? 'Beach properties typically peak in summer months' 
+                : property.propertyType === 'commercial' 
+                  ? 'Commercial properties vary with business seasons'
+                  : 'Residential properties peak in spring and autumn'
+              }
+            </p>
+          </div>
+        </div>
 
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4 border-t border-border">
