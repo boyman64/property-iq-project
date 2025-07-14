@@ -189,7 +189,7 @@ const PropertyDetailsModal = ({ property, isOpen, onClose }: PropertyDetailsModa
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4 border-t border-border">
             <Button variant="analytics" className="flex-1">
-              Contact Agent
+              Go to Website
             </Button>
             <Button variant="outline" className="flex-1">
               Save Property
