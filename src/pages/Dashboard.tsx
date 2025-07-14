@@ -100,7 +100,7 @@ const Dashboard = () => {
           <StatCard
             title="Average Price"
             value={`$${avgPrice.toLocaleString()}`}
-            change={{ value: avgPriceChange, type: 'increase' }}
+            change={{ value: Number(avgPriceChange.toFixed(1)), type: 'increase' }}
             icon={DollarSign}
             description="Across all cities"
           />
