@@ -12,7 +12,26 @@ const Trends = () => {
 
   const cities = ['all', ...Array.from(new Set(marketTrendData.map(item => item.city)))];
   
-  const filteredData = selectedCity === 'all' 
+  // Helper function to filter data by time range
+  const getTimeRangeMonths = (range: string) => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    
+    switch (range) {
+      case '3months':
+        return 3;
+      case '6months':
+        return 6;
+      case '1year':
+        return 12;
+      default:
+        return 6;
+    }
+  };
+
+  // Filter by city first
+  const cityFilteredData = selectedCity === 'all' 
     ? marketTrendData.reduce((acc: any[], curr) => {
         const existing = acc.find(item => item.month === curr.month);
         if (existing) {
@@ -24,6 +43,10 @@ const Trends = () => {
         return acc;
       }, [])
     : marketTrendData.filter(item => item.city === selectedCity);
+
+  // Then filter by time range
+  const monthsToShow = getTimeRangeMonths(timeRange);
+  const filteredData = cityFilteredData.slice(-monthsToShow);
 
   const priceChangeData = filteredData.map((item, index) => ({
     ...item,
