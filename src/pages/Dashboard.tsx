@@ -18,12 +18,31 @@ import {
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const quickTrendData = [
-  { month: 'Sep', price: 145000 },
-  { month: 'Oct', price: 148000 },
-  { month: 'Nov', price: 152000 },
-  { month: 'Dec', price: 155000 },
-  { month: 'Jan', price: 158000 },
+const marketTrendData = [
+  { month: 'Jan 2023', avgPrice: 142000, apartments: 135000, houses: 158000, commercial: 180000 },
+  { month: 'Feb 2023', avgPrice: 144000, apartments: 137000, houses: 160000, commercial: 185000 },
+  { month: 'Mar 2023', avgPrice: 146000, apartments: 139000, houses: 162000, commercial: 188000 },
+  { month: 'Apr 2023', avgPrice: 145000, apartments: 138000, houses: 161000, commercial: 186000 },
+  { month: 'May 2023', avgPrice: 147000, apartments: 140000, houses: 163000, commercial: 190000 },
+  { month: 'Jun 2023', avgPrice: 149000, apartments: 142000, houses: 165000, commercial: 192000 },
+  { month: 'Jul 2023', avgPrice: 151000, apartments: 144000, houses: 167000, commercial: 195000 },
+  { month: 'Aug 2023', avgPrice: 148000, apartments: 141000, houses: 164000, commercial: 191000 },
+  { month: 'Sep 2023', avgPrice: 150000, apartments: 143000, houses: 166000, commercial: 194000 },
+  { month: 'Oct 2023', avgPrice: 152000, apartments: 145000, houses: 168000, commercial: 197000 },
+  { month: 'Nov 2023', avgPrice: 154000, apartments: 147000, houses: 170000, commercial: 200000 },
+  { month: 'Dec 2023', avgPrice: 156000, apartments: 149000, houses: 172000, commercial: 202000 },
+  { month: 'Jan 2024', avgPrice: 158000, apartments: 151000, houses: 174000, commercial: 205000 },
+  { month: 'Feb 2024', avgPrice: 160000, apartments: 153000, houses: 176000, commercial: 208000 },
+  { month: 'Mar 2024', avgPrice: 162000, apartments: 155000, houses: 178000, commercial: 210000 },
+  { month: 'Apr 2024', avgPrice: 159000, apartments: 152000, houses: 175000, commercial: 207000 },
+  { month: 'May 2024', avgPrice: 161000, apartments: 154000, houses: 177000, commercial: 209000 },
+  { month: 'Jun 2024', avgPrice: 163000, apartments: 156000, houses: 179000, commercial: 212000 },
+  { month: 'Jul 2024', avgPrice: 165000, apartments: 158000, houses: 181000, commercial: 215000 },
+  { month: 'Aug 2024', avgPrice: 162000, apartments: 155000, houses: 178000, commercial: 211000 },
+  { month: 'Sep 2024', avgPrice: 164000, apartments: 157000, houses: 180000, commercial: 214000 },
+  { month: 'Oct 2024', avgPrice: 166000, apartments: 159000, houses: 182000, commercial: 217000 },
+  { month: 'Nov 2024', avgPrice: 168000, apartments: 161000, houses: 184000, commercial: 220000 },
+  { month: 'Dec 2024', avgPrice: 170000, apartments: 163000, houses: 186000, commercial: 223000 },
 ];
 
 const Dashboard = () => {
@@ -128,14 +147,26 @@ const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64">
+            <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={quickTrendData}>
+                <LineChart data={marketTrendData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="month" />
+                  <XAxis 
+                    dataKey="month" 
+                    tick={{ fontSize: 11 }}
+                    interval="preserveStartEnd"
+                  />
                   <YAxis tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
                   <Tooltip 
-                    formatter={(value) => [`$${Number(value).toLocaleString()}`, 'Avg Price']}
+                    formatter={(value, name) => {
+                      const labels = {
+                        avgPrice: 'Average Price',
+                        apartments: 'Apartments',
+                        houses: 'Houses',
+                        commercial: 'Commercial'
+                      };
+                      return [`$${Number(value).toLocaleString()}`, labels[name as keyof typeof labels] || name];
+                    }}
                     labelStyle={{ color: 'hsl(var(--foreground))' }}
                     contentStyle={{ 
                       backgroundColor: 'hsl(var(--card))',
@@ -145,10 +176,35 @@ const Dashboard = () => {
                   />
                   <Line 
                     type="monotone" 
-                    dataKey="price" 
+                    dataKey="avgPrice" 
                     stroke="hsl(var(--primary))" 
                     strokeWidth={3}
-                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
+                    dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 3 }}
+                    name="Average Price"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="apartments" 
+                    stroke="hsl(var(--info))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--info))', strokeWidth: 2, r: 2 }}
+                    name="Apartments"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="houses" 
+                    stroke="hsl(var(--success))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--success))', strokeWidth: 2, r: 2 }}
+                    name="Houses"
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="commercial" 
+                    stroke="hsl(var(--warning))" 
+                    strokeWidth={2}
+                    dot={{ fill: 'hsl(var(--warning))', strokeWidth: 2, r: 2 }}
+                    name="Commercial"
                   />
                 </LineChart>
               </ResponsiveContainer>
